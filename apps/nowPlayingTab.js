@@ -8,7 +8,7 @@ import {
     TouchableOpacity,
     Image,
     ListView,
-    Navigator
+    Navigator,
 } from 'react-native';
 
 import MovieList from './movieList';
@@ -34,18 +34,26 @@ export default class NowPlayingTab extends Component {
                 renderScene={(route, navigator) => {
                     if (route.index === 0) {
                         return (
-                            <MovieList goMovieDetailPage={() => {
-                                navigator.push(routes[1])
+                            <MovieList goMovieDetailPage={(movieData) => {
+                                navigator.push(
+                                    {
+                                        index: 1,
+                                        data: movieData
+                                    }
+                                )
                             }} />
                         )
                     } else {
-                        return (
-                            <MovieDetail returnMovieListPage={() => {
-                                console.log("bla bla") ; 
-                                navigator.pop();
-                            }} />
-                        )
+                        if (route.data) {
+                            return (
+                                
+                                    <MovieDetail data={route.data} returnMovieListPage={() => {
+                                        navigator.pop();
+                                    }} />
+                                
 
+                            )
+                        }
                     }
                 }
                 }

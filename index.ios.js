@@ -21,6 +21,7 @@ import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor : "#f1b344"
   },
   page: {
     flex: 1,

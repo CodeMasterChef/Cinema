@@ -6,12 +6,12 @@ import {
     View,
     ScrollView,
     TouchableOpacity,
-    Image,
     ListView,
     Navigator
 } from 'react-native';
 
 import Movie from './movie';
+
 
 export default class MovieList extends Component {
     constructor(props) {
@@ -36,7 +36,8 @@ export default class MovieList extends Component {
                     renderRow={
                         (movieData) =>
                             <TouchableOpacity onPress={ () => { 
-                                this.props.goMovieDetailPage() 
+                                this.props.goMovieDetailPage(movieData);
+
                                  }}>
                                 <Movie data={movieData} />
                             </TouchableOpacity>
