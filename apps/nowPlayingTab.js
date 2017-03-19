@@ -14,8 +14,15 @@ import {
 import MovieList from './movieList';
 import MovieDetail from './movieDetail';
 
-export default class NowPlayingTab extends Component {
 
+const styles =  StyleSheet.create ({ 
+    container : {
+        
+    }
+})
+
+
+export default class NowPlayingTab extends Component {
 
     constructor(props) {
         super(props);
@@ -34,7 +41,7 @@ export default class NowPlayingTab extends Component {
                 renderScene={(route, navigator) => {
                     if (route.index === 0) {
                         return (
-                            <MovieList goMovieDetailPage={(movieData) => {
+                            <MovieList style={styles.container} goMovieDetailPage={(movieData) => {
                                 navigator.push(
                                     {
                                         index: 1,

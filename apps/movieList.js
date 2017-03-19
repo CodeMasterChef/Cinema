@@ -29,7 +29,7 @@ export default class MovieList extends Component {
         const moviesDataSource = ds.cloneWithRows(this.state.movieList);
 
         return (
-            <View style={{ backgroundColor: '#f1b344' }}>
+            <View style={{ backgroundColor: '#f1b344'  , paddingTop: 20 }}>
                 <ListView
                     enableEmptySections={true}
                     dataSource={moviesDataSource}
