@@ -7,7 +7,8 @@ import {
     ScrollView,
     TouchableOpacity,
     ListView,
-    Navigator
+    Navigator,
+    TextInput
 } from 'react-native';
 
 import Movie from './movie';
@@ -18,27 +19,32 @@ export default class MovieList extends Component {
         super(props);
         this.state = {
             movieList: [],
-            loading: true
+            loading: true,
+            moviesDataSource: new ListView.DataSource({
+                rowHasChanged: (row1, row2) => row1 !== row2,
+            })
         }
+
     }
     render() {
         if (this.state.loading) {
             return <Text>Loading ... </Text>
         }
-        const ds = new ListView.DataSource({ rowHasChanged: () => { (r1, r2) => r1 !== r2 } });
-        const moviesDataSource = ds.cloneWithRows(this.state.movieList);
 
         return (
-            <View style={{ backgroundColor: '#f1b344'  , paddingTop: 20 }}>
+            <View >
+                <TextInput style={{ height: 30, padding: 5, backgroundColor: 'white', margin: 5, borderRadius: 5 }}
+                    placeholder="Search"
+                    onChangeText={(text) => this.filterMovies({ text })} />
                 <ListView
                     enableEmptySections={true}
-                    dataSource={moviesDataSource}
+                    dataSource={this.state.moviesDataSource}
                     renderRow={
                         (movieData) =>
-                            <TouchableOpacity onPress={ () => { 
+                            <TouchableOpacity onPress={() => {
                                 this.props.goMovieDetailPage(movieData);
 
-                                 }}>
+                            }}>
                                 <Movie data={movieData} />
                             </TouchableOpacity>
 
@@ -47,18 +53,41 @@ export default class MovieList extends Component {
             </View>
         )
     }
+    filterMovies(name) {
+        let keyword = name.text.toLowerCase();
+        let rows = [];
+        console.log(keyword);
+        for (let i = 0; i < this.state.movieList.length; i++) {
+            let movie = this.state.movieList[i];
+            let title = movie.original_title.toLowerCase();
+            if (title.search(keyword) !== -1) {
+                rows.push(movie);
+            }
+        }
+        let ds = new ListView.DataSource({ rowHasChanged: () => { (r1, r2) => r1 !== r2 } });
+        this.setState({ moviesDataSource: ds.cloneWithRows(rows) });
 
+    }
 
     componentDidMount() {
         this.getMoviesFromApiAsync().then(movies => {
             this.setState({ loading: false, movieList: movies });
-            console.log("movie list : ", this.state.movieList);
+            let ds = new ListView.DataSource({ rowHasChanged: () => { (r1, r2) => r1 !== r2 } });
+            this.setState({ moviesDataSource: ds.cloneWithRows(this.state.movieList) });
 
         })
     }
 
     getMoviesFromApiAsync() {
-        return fetch('https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed')
+        console.log("type: ", this.props.type);
+        let type = this.props.type;
+        let url = '';
+        if (type == 'NOW_PLAYING') {
+            url = 'https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed';
+        } else {
+            url = 'https://api.themoviedb.org/3/movie/top_rated?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed';
+        }
+        return fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
                 return responseJson.results;

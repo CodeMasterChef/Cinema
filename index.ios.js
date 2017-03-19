@@ -85,9 +85,9 @@ export default class Cinema extends Component {
   _renderScene = ({ route }) => {
     switch (route.key) {
       case '1':
-        return <NowPlayingTab />;
+        return <NowPlayingTab  type ="NOW_PLAYING" />;
       case '2':
-        return <View style={[styles.page, { backgroundColor: '#673ab7' }]} />;
+        return <NowPlayingTab  type ="TOP_RATED" />;
       default:
         return null;
     }

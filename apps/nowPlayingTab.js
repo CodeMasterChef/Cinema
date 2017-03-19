@@ -15,9 +15,9 @@ import MovieList from './movieList';
 import MovieDetail from './movieDetail';
 
 
-const styles =  StyleSheet.create ({ 
-    container : {
-        
+const styles = StyleSheet.create({
+    container: {
+
     }
 })
 
@@ -41,23 +41,35 @@ export default class NowPlayingTab extends Component {
                 renderScene={(route, navigator) => {
                     if (route.index === 0) {
                         return (
-                            <MovieList style={styles.container} goMovieDetailPage={(movieData) => {
-                                navigator.push(
-                                    {
-                                        index: 1,
-                                        data: movieData
-                                    }
-                                )
-                            }} />
+                            <View style={{ backgroundColor: '#f1b344' }}>
+                                <View style={{ paddingTop: 15 }} >
+                                    <MovieList type={this.props.type} goMovieDetailPage={(movieData) => {
+                                        navigator.push(
+                                            {
+                                                index: 1,
+                                                data: movieData
+                                            }
+                                        )
+                                    }} />
+                                </View>
+
+                            </View>
+
+
                         )
                     } else {
                         if (route.data) {
                             return (
-                                
-                                    <MovieDetail data={route.data} returnMovieListPage={() => {
-                                        navigator.pop();
-                                    }} />
-                                
+                                <View style={{ backgroundColor: '#f1b344', flex: 1 }}>
+                                    <View style={{ paddingTop: 15, flex: 1 }} >
+                                        <MovieDetail data={route.data} returnMovieListPage={() => {
+                                            navigator.pop();
+                                        }} />
+                                    </View>
+
+
+                                </View>
+
 
                             )
                         }

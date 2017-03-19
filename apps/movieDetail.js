@@ -22,7 +22,7 @@ export default class MovieDetail extends Component {
 
         let poster_path = "https://image.tmdb.org/t/p/w500/" + movie.poster_path;
         return (
-            <View style={{ flex: 1}} >
+            <View style={{ flex: 1 , marginTop: 10 }} >
                 <View style={{flex: 1,  position: 'absolute', zIndex: 100, top: 0, backgroundColor: 'rgba(0,0,0,0.8)' }}>
                      <TouchableOpacity style={{flex: 1}} onPress={() => {
                         this.props.returnMovieListPage();
