@@ -124,7 +124,9 @@ export default class MovieList extends Component {
 
             })
             .catch((error) => {
-                console.error(error);
+               // console.error(error);
+                alert("Can not connect internet");
+                return [];
             });
     }
 
