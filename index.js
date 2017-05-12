@@ -11,6 +11,7 @@ import {
 import NowPlayingTab from './apps/nowPlayingTab';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
+import SplashScreen from 'react-native-smart-splash-screen';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     color: 'white',
   },
-   tabbar: {
+  tabbar: {
     backgroundColor: '#f1b344',
 
   },
@@ -65,23 +66,31 @@ export default class Cinema extends Component {
       ],
     }
   }
+  componentDidMount() {
+    //SplashScreen.close(SplashScreen.animationType.scale, 850, 500) 
+    SplashScreen.close({
+      animationType: SplashScreen.animationType.scale,
+      duration: 850,
+      delay: 500,
+    })
+  }
 
   _handleChangeTab = (index) => {
     this.setState({ index });
   };
 
   _renderHeader = (props) => {
-    return <TabBar {...props} 
+    return <TabBar {...props}
       renderIcon={this._renderIcon}
-     style={{ backgroundColor: '#f1b344' }} />;
+      style={{ backgroundColor: '#f1b344' }} />;
   };
 
   _renderScene = ({ route }) => {
     switch (route.key) {
       case '1':
-        return <NowPlayingTab  type ="NOW_PLAYING" />;
+        return <NowPlayingTab type="NOW_PLAYING" />;
       case '2':
-        return <NowPlayingTab  type ="TOP_RATED" />;
+        return <NowPlayingTab type="TOP_RATED" />;
       default:
         return null;
     }
@@ -95,20 +104,20 @@ export default class Cinema extends Component {
       />
     );
   };
-   _renderIndicator = (props) => {
+  _renderIndicator = (props) => {
     const { width, position } = props;
 
     const translateX = Animated.multiply(position, width);
 
     return (
       <Animated.View
-        style={[ styles.container, { width, transform: [ { translateX } ] } ]}
+        style={[styles.container, { width, transform: [{ translateX }] }]}
       >
         <View style={styles.indicator} />
       </Animated.View>
     );
   };
-   _renderFooter = (props) => {
+  _renderFooter = (props) => {
     return (
       <TabBar
         {...props}
@@ -119,7 +128,7 @@ export default class Cinema extends Component {
       />
     );
   };
-   _renderBadge = ({ route }) => {
+  _renderBadge = ({ route }) => {
     if (route.key === '2') {
       return (
         <View style={styles.badge}>

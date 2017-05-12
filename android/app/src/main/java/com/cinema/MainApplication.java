@@ -26,8 +26,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new RCTSplashScreenPackage(),
-            new VectorIconsPackage(),
-            new RCTSplashScreenPackage()    
+            new VectorIconsPackage()
       );
     }
   };
