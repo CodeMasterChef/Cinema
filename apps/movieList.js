@@ -67,8 +67,6 @@ export default class MovieList extends Component {
         this.setState({ refreshing: true, page: page });
 
         this.getMoviesFromApiAsync(page).then((movies) => {
-            console.log("refesh data " + this.state.page);
-            console.log(movies);
             this.setState({ refreshing: false });
             this.setMovieList(movies , true ) ;
         });
@@ -77,7 +75,6 @@ export default class MovieList extends Component {
     filterMovies(name) {
         let keyword = name.text.toLowerCase();
         let rows = [];
-        console.log(keyword);
         for (let i = 0; i < this.state.movieList.length; i++) {
             let movie = this.state.movieList[i];
             let title = movie.original_title.toLowerCase();
@@ -103,7 +100,6 @@ export default class MovieList extends Component {
         } else {
             this.setState({ loading: false, movieList: movies });
         }
-        console.log(this.state.movieList);
         let ds = new ListView.DataSource({ rowHasChanged: () => { (r1, r2) => r1 !== r2 } });
         this.setState({ moviesDataSource: ds.cloneWithRows(this.state.movieList) });
 

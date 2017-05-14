@@ -12,6 +12,8 @@ import NowPlayingTab from './apps/nowPlayingTab';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 import SplashScreen from 'react-native-smart-splash-screen';
+import PushNotification from 'react-native-push-notification';
+import PushNotificationAndroid from 'react-native-push-notification';
 
 const styles = StyleSheet.create({
   container: {
@@ -49,7 +51,6 @@ const styles = StyleSheet.create({
   },
 });
 
-
 export default class Cinema extends Component {
 
   static propTypes = {
@@ -65,7 +66,58 @@ export default class Cinema extends Component {
         { key: '2', title: 'Top Rating', icon: 'ios-star-outline' },
       ],
     }
+
+
+    PushNotification.configure({
+
+      // (optional) Called when Token is generated (iOS and Android)
+      onRegister: (token) => {
+      },
+
+      // (required) Called when a remote or local notification is opened or received
+      onNotification: (notification) => {
+        alert(JSON.stringify(notification));
+        this._loadNotification(notification['google.c.a.c_l']);
+
+      },
+
+      // ANDROID ONLY: GCM Sender ID (optional - not required for local notifications, but is need to receive remote push notifications) 
+      senderID: "308538566668",
+
+      // IOS ONLY (optional): default: all - Permissions to register.
+      permissions: {
+        alert: true,
+        badge: true,
+        sound: true,
+        hasPoppedInitialNotification: true
+      },
+
+      // Should the initial notification be popped automatically
+      // default: true
+      popInitialNotification: true,
+
+      /**
+        * (optional) default: true
+        * - Specified if permissions (ios) and token (android and ios) will requested or not,
+        * - if not, you must call PushNotificationsHandler.requestPermissions() later
+        */
+      requestPermissions: true,
+    });
+
+
+
   }
+  _loadNotification(message) {
+    console.log("recive message: " , message)
+    PushNotification.localNotificationSchedule({
+      message: message, // (required)
+      date: new Date(Date.now() + (1 * 1000)) // in 1 secs
+    });
+  }
+
+
+
+
   componentDidMount() {
     //SplashScreen.close(SplashScreen.animationType.scale, 850, 500) 
     SplashScreen.close({
